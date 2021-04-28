@@ -1,0 +1,888 @@
+<template>
+<div class="page-wrapper chiller-theme" style="background:#efefef">
+    <nav id="sidebar" class="sidebar-wrapper">
+        <div class="sidebar-content">
+
+            <div class="sidebar-header">
+                <div class="user-pic">
+                   <img :src="`../../../uploads/profiles/${admin_data.pic}`" alt="">
+              
+                </div>
+                <div class="user-info">
+                  <span class="user-name">
+                    {{admin_data.fname}} 
+                  </span>
+                    <span class="user-role">ผู้ดูแลระบบ</span>
+                    <span class="user-status">
+                <i class="fa fa-circle" style="padding-right: 10px;color: #68bd29;"></i>
+                <span>ออนไลน์</span>
+            </span>
+                </div>
+            </div>
+
+            <div class="sidebar-menu">
+                <ul>
+                   
+                    <li class="header-menu">
+                            <span>เมนูหลัก</span>
+                    </li>
+                    <li > 
+                        <router-link to="/console/dashboard">
+                          <i class="fa fa-tachometer-alt"></i>
+                          <span>แดชบอร์ด</span>    
+                       </router-link>
+                    </li>
+                    <li class="sidebar-dropdown">
+                        <router-link to="#">
+                            <i class="fab fa-app-store-ios"></i>
+                            <span>แอปพลิเคชัน</span>
+
+                        </router-link>
+                        <div class="sidebar-submenu">
+                            <ul>
+                                
+                                <li>
+                                    <router-link to="/console/app/view_app">แอปพลิเคชันทั้งหมด</router-link>
+                                </li>
+                                <li>
+                                    <router-link to="/console/app/add_app">เพิ่มแอปพลิเคชัน</router-link>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="sidebar-dropdown">
+                        <router-link to="#">
+                            <i class="fas fa-user"></i>
+                            <span>ผู้ใช้</span>
+                        </router-link>
+                        <div class="sidebar-submenu">
+                            <ul>
+                                <li>
+                                    <router-link to="/console/user/view_user">ผู้ใช้ทั้งหมด</router-link>
+                                </li>
+                                <li>
+                                    <router-link to="/console/user/add_user">เพิ่มผู้ใช้</router-link>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li >
+                        <router-link to="/console/download">
+                          <i class="fas fa-download"></i>
+                          <span>จำนวนดาวน์โหลด</span>
+                        </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/console/editme">
+                      <i class="fas fa-user-cog"></i>
+                        <span>แก้ไขข้อมูลส่วนตัว</span>
+                      </router-link>
+                    </li>
+                </ul>
+            </div>
+            <!-- sidebar-menu  -->
+        </div>
+        <div class="sidebar-footer">
+            <div class="w-100 d-flex justify-content-center p-2" style="cursor:pointer;" @click="Logout">
+                <i class="fa fa-power-off"></i>
+            </div>
+        </div>
+    </nav>
+    <main class="page-content" style="padding-left:260px">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                  <div class="card-body">
+                    <iframe 
+                    style="background: #FFFFFF;
+                    border: none;
+                    border-radius: 2px;
+                    
+                    " width="100%" height="600px" src="https://charts.mongodb.com/charts-project-js-fxiuz/embed/charts?id=5a84ab93-77a9-4dbc-b4d6-a47fe991477e&autoRefresh=60&theme=light"></iframe>
+                  </div>
+                </div>
+            </div>
+            <div class="col-6 mt-3">
+              <div class="user-chart">
+                <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="100%" height="200" src="https://charts.mongodb.com/charts-project-js-fxiuz/embed/charts?id=f81e0278-08fb-40c8-b581-5dd8e24d046c&autoRefresh=60&theme=light"></iframe>
+              </div>
+            </div>
+            <div class="col-6 mt-3">
+              <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="100%" height="200" src="https://charts.mongodb.com/charts-project-js-fxiuz/embed/charts?id=a08e622d-29f6-40ac-abb6-18c613ad0358&autoRefresh=60&theme=light"></iframe>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 mt-3">
+              <div class="card">
+                  <div class="card-body rounded">
+                    <div class="card-header mb-3">
+                      แอปพลิเคชันล่าสุด
+                    </div>
+                    <div class="card-content round-5">
+                      <table class="table table-hover" style="font-size:14px">
+                        <thead>
+                          <tr align=center>
+                            <th>ชื่อแอปพลิเคชั่น</th>
+                            <th>ชื่อผู้พัฒนา</th>
+                            <th>เพิ่มเมื่อ</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr align=center v-for="app in apps" :key="app._id">
+                            <td>{{app.app_name}}</td>
+                            <td>{{app.dev_name}}</td>
+                            <td>{{app.create_on.substr(0,10)}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-6 mt-3">
+                <div class="card">
+                  <div class="card-body rounded">
+                    <div class="card-header mb-3">
+                      ผู้ใช้ที่เพิ่มล่าสุด
+                    </div>
+                    <div class="card-content round-5">
+                      <table class="table table-hover" style="font-size:14px">
+                        <thead>
+                          <tr align=center>
+                            <th>ชื่อจริง - นามสกุล</th>
+                            <th>ชื่อผู้ใช้</th>
+                            <th>สถานะ</th>
+                            <th>สร้างเมื่อ</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr align=center v-for="member in members" :key="member._id">
+                            <td>{{member.fname + ' ' + member.lname}}</td>
+                            <td>{{member.username}}</td>
+                            <td>
+                              <p v-if="member.isAdmin">ผู้ดูแลระบบ</p>
+                              <p v-else>ผู้ใช้ทั่วไป</p>
+                            </td>
+                            <td>{{member.createon.substr(0,10)}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </main>
+</div>    
+</template>
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body{
+  font-family: 'Kanit', sans-serif!important;
+}
+input#app_pre {
+    opacity: 0;
+}
+#preview_app_list {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+label.app_pre_upload {
+    width: 150px;
+    height: 150px;
+    font-size: 24px;
+    background: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+:root{
+  --wraper-bg : #EFEFEF ;
+  --body-card :#EFEFEF;
+  --warper-sidebar:#EFEFEF;
+  --card-icon:#98a4c7;
+  --black:black;
+  --white:#fff;
+  --input-text-color:#212529;
+  --border-color:#ced4da;
+  --card-title-color:rgba(61,68,101,.8);
+  --table-hover-bg:rgba(0, 0, 0, 0.075);
+  --input-group-text: #eeeeee;
+  --sidebar-footer: #eeeeee;
+}
+
+@keyframes swing {
+    0% {
+      transform: rotate(0deg);
+    }
+    10% {
+      transform: rotate(10deg);
+    }
+    30% {
+      transform: rotate(0deg);
+    }
+    40% {
+      transform: rotate(-10deg);
+    }
+    50% {
+      transform: rotate(0deg);
+    }
+    60% {
+      transform: rotate(5deg);
+    }
+    70% {
+      transform: rotate(0deg);
+    }
+    80% {
+      transform: rotate(-5deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+  
+  @keyframes sonar {
+    0% {
+      transform: scale(0.9);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+  body {
+    font-size: 0.9rem;
+  }
+  .page-wrapper .sidebar-wrapper,
+  .sidebar-wrapper .sidebar-brand > a,
+  .sidebar-wrapper .sidebar-dropdown > a:after,
+  .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before,
+  .sidebar-wrapper ul li a i,
+  .page-wrapper .page-content,
+  .sidebar-wrapper .sidebar-search input.search-menu,
+  .sidebar-wrapper .sidebar-search .input-group-text,
+  .sidebar-wrapper .sidebar-menu ul li a,
+  #show-sidebar,
+  #close-sidebar {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+  }
+  
+  /*----------------page-wrapper----------------*/
+
+
+
+  .page-wrapper {
+    height: 100vh;
+  }
+  
+  
+  .page-wrapper .theme {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    border-radius: 4px;
+    margin: 2px;
+  }
+  .input-group-text{
+    display: block!important;
+  }
+  .page-wrapper .theme.chiller-theme {
+    background: #ffffff;
+  }
+  
+  /*----------------toggeled sidebar----------------*/
+  
+  .page-wrapper.toggled .sidebar-wrapper {
+    left: 0px;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .page-wrapper.toggled .page-content {
+      padding-left: 260px;
+    }
+  }
+  /*----------------show sidebar button----------------*/
+  #show-sidebar {
+    position: fixed;
+    left: 0;
+    top: 10px;
+    z-index: 999;
+    border-radius: 0 4px 4px 0px;
+    width: 35px;
+    transition-delay: 0.3s;
+    padding:10px;
+  }
+
+  /*----------------sidebar-wrapper----------------*/
+  
+  .sidebar-wrapper {
+    width: 260px;
+    height: 100%;
+    max-height: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+  }
+  
+  .sidebar-wrapper ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar-wrapper a {
+    text-decoration: none;
+  }
+  
+  /*----------------sidebar-content----------------*/
+  
+  .sidebar-content {
+    max-height: calc(100% - 30px);
+    height: calc(100% - 30px);
+    overflow-y: auto;
+    position: relative;
+  }
+  
+  .sidebar-content.desktop {
+    overflow-y: hidden;
+  }
+  
+  /*--------------------sidebar-brand----------------------*/
+  
+  .sidebar-wrapper .sidebar-brand {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .sidebar-wrapper .sidebar-brand > a {
+    text-transform: uppercase;
+    font-weight: bold;
+    flex-grow: 1;
+  }
+  
+  .sidebar-wrapper .sidebar-brand #close-sidebar {
+    cursor: pointer;
+    font-size: 20px;
+  }
+  /*--------------------sidebar-header----------------------*/
+  
+  .sidebar-wrapper .sidebar-header {
+    padding: 20px;
+    overflow: hidden;
+  }
+  
+  .sidebar-wrapper .sidebar-header .user-pic {
+    float: left;
+    width: 60px;
+    padding: 2px;
+    border-radius: 12px;
+    margin-right: 15px;
+    overflow: hidden;
+  }
+  
+  .sidebar-wrapper .sidebar-header .user-pic img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .sidebar-wrapper .sidebar-header .user-info {
+    float: left;
+  }
+  
+  .sidebar-wrapper .sidebar-header .user-info > span {
+    display: block;
+  }
+  
+  .sidebar-wrapper .sidebar-header .user-info .user-role {
+    font-size: 12px;
+  }
+  
+  .sidebar-wrapper .sidebar-header .user-info .user-status {
+    font-size: 11px;
+    margin-top: 4px;
+  }
+  
+  .sidebar-wrapper .sidebar-header .user-info .user-status i {
+    font-size: 8px;
+    margin-right: 4px;
+    color: #5cb85c;
+  }
+  
+  /*-----------------------sidebar-search------------------------*/
+  
+  .sidebar-wrapper .sidebar-search > section {
+    padding: 10px 20px;
+  }
+  
+  /*----------------------sidebar-menu-------------------------*/
+  
+  .sidebar-wrapper .sidebar-menu {
+    padding-bottom: 10px;
+  }
+  
+  .sidebar-wrapper .sidebar-menu .header-menu span {
+    font-weight: bold;
+    font-size: 14px;
+    padding: 15px 20px 5px 20px;
+    display: inline-block;
+  }
+  
+  .sidebar-wrapper .sidebar-menu ul li a {
+    display: inline-block;
+    width: 100%;
+    color: #707070;
+    text-decoration: none;
+    position: relative;
+    padding: 8px 30px 8px 20px;
+  }
+  
+  .sidebar-wrapper .sidebar-menu ul li a i {
+    margin-right: 10px;
+    font-size: 12px;
+    width: 25px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 4px;
+  }
+  
+  .sidebar-wrapper .sidebar-menu ul li a:hover > i::before {
+    display: inline-block;
+    animation: swing ease-in-out 0.5s 1 alternate;
+  }
+  
+  .sidebar-wrapper .sidebar-menu .sidebar-dropdown > a:after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f105";
+    font-style: normal;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    background: 0 0;
+    position: absolute;
+    right: 15px;
+    top: 14px;
+  }
+  
+  .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu ul {
+    padding: 5px 0;
+  }
+  
+  .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li {
+    padding-left: 25px;
+    font-size: 13px;
+  }
+  
+  .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before {
+    content: "\f111";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 400;
+    font-style: normal;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin-right: 10px;
+    font-size: 8px;
+  }
+  
+  .sidebar-wrapper .sidebar-menu ul li a span.label,
+  .sidebar-wrapper .sidebar-menu ul li a span.badge {
+    float: right;
+    margin-top: 8px;
+    margin-left: 5px;
+  }
+  
+  .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .badge,
+  .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .label {
+    float: right;
+    margin-top: 0px;
+  }
+  
+  .sidebar-wrapper .sidebar-menu .sidebar-submenu {
+    display: none;
+  }
+  
+  .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active > a:after {
+    transform: rotate(90deg);
+    right: 17px;
+  }
+  
+  /*--------------------------side-footer------------------------------*/
+  
+  .sidebar-footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+  }
+  
+  .sidebar-footer > a {
+    flex-grow: 1;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    position: relative;
+  }
+  
+  .sidebar-footer > a .notification {
+    position: absolute;
+    top: 0;
+  }
+  
+  .badge-sonar {
+    display: inline-block;
+    background: #980303;
+    border-radius: 50%;
+    height: 8px;
+    width: 8px;
+    position: absolute;
+    top: 0;
+  }
+  
+  .badge-sonar:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 2px solid #980303;
+    opacity: 0;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    animation: sonar 1.5s infinite;
+  }
+  
+  /*--------------------------page-content-----------------------------*/
+  
+  .page-wrapper .page-content {
+    background: var(--wraper-bg);
+    display: inline-block;
+    width: 100%;
+    height: 100vh;
+    padding-left: 0px;
+    padding-top: 20px;
+    background-attachment: fixed;
+}
+  /*
+  .page-wrapper .page-content > div {
+    padding: 20px 40px;
+  }*/
+  
+  .page-wrapper .page-content {
+    overflow-x: hidden;
+  }
+  
+  /*------scroll bar---------------------*/
+  
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 7px;
+  }
+  ::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #525965;
+    border: 0px none #ffffff;
+    border-radius: 0px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #525965;
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background: #525965;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+  }
+  ::-webkit-scrollbar-track:hover {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-track:active {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+/** CARD CSS */
+.card{
+  border: none !important;;
+}
+.card-header{
+  background:none;
+  font-size: 24px;
+}
+.card .card-icon i {
+    color:#8160EF;
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      border-radius: 50%;
+      font-size: 3rem;
+}
+.ml-auto, .mx-auto {
+  margin-left: auto!important;
+  }
+  .card-text .text-right{
+    color: var(--black);
+  }
+  .card .card-title {
+  color: var(--card-title-color);
+  border-bottom: 1px solid var(--border-color);
+  }
+  /*-----------------------------chiller-theme-------------------------------------------------*/
+  
+  .chiller-theme .sidebar-wrapper {
+      background:white;
+  }
+  /*
+  .chiller-theme .sidebar-wrapper .sidebar-header,
+  .chiller-theme .sidebar-wrapper .sidebar-search,
+  .chiller-theme .sidebar-wrapper .sidebar-menu {
+      border-top: 1px solid #3a3f48;
+  }
+  */
+  .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
+  .chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {
+      border-color: transparent;
+      box-shadow: none;
+  }
+  
+  .chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-role,
+  .chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-status,
+  .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
+  .chiller-theme .sidebar-wrapper .sidebar-search .input-group-text,
+  .chiller-theme .sidebar-wrapper .sidebar-brand>a
+  .chiller-theme .sidebar-wrapper .sidebar-menu ul li a,
+  .chiller-theme .sidebar-footer>a {
+      color: #818896;
+  }
+  
+  .chiller-theme .sidebar-wrapper .sidebar-menu ul li:hover>a,
+  .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active>a,
+  .chiller-theme .sidebar-wrapper .sidebar-header .user-info,
+  .chiller-theme .sidebar-wrapper .sidebar-brand>a:hover,
+  .chiller-theme .sidebar-footer>a:hover i {
+      color: #404040;
+  }
+  
+  .page-wrapper.chiller-theme.toggled #close-sidebar {
+      color: #bdbdbd;
+  }
+  
+  .page-wrapper.chiller-theme.toggled #close-sidebar:hover {
+      color: #ffffff;
+  }
+  
+  .chiller-theme .sidebar-wrapper ul li:hover a i,
+  .chiller-theme .sidebar-wrapper .sidebar-dropdown .sidebar-submenu li a:hover:before,
+  .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu:focus+span,
+  .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active a i {
+      color: #16c7ff;
+      text-shadow:0px 0px 10px rgba(22, 199, 255, 0.5);
+  }
+  
+  .chiller-theme .sidebar-wrapper .sidebar-menu ul li a i,
+  .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown div,
+  .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
+  .chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {
+      background:var(--input-group-text);
+  }
+  
+  .chiller-theme .sidebar-wrapper .sidebar-menu .header-menu span {
+      color: #6c7b88;
+  }
+  
+  .chiller-theme .sidebar-footer {
+      background: var(--sidebar-footer);
+      /*
+      box-shadow: 0px -1px 5px #282c33;
+      border-top: 1px solid #464a52;
+      */
+  }
+  
+  .chiller-theme .sidebar-footer>a:first-child {
+      border-left: none;
+  }
+  
+  .chiller-theme .sidebar-footer>a:last-child {
+      border-right: none;
+  }
+
+#input_search{
+  background-color:var(--white)!important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--input-text-color) !important;
+}
+
+
+.table{
+    color:var(--black);
+    --bs-table-hover-bg:var(--table-hover-bg)
+  }
+  span.readed {
+    background: #86eac5;
+    color:black;
+    padding: 7px 10px;
+    display: block;
+    border-radius: 20px;
+  }
+  span.un-read {
+      background: #ff8787;
+      padding: 7px 10px;
+      color:black;
+      display: block;
+      border-radius: 20px;
+  }
+  span.un-send {
+      background: #ffe9ad;
+      padding: 7px 10px;
+      color:black;
+      border-radius: 20px;
+      display: block;
+  }
+  .form-label{
+    color: var(--black) !important;
+  }
+  section.form-check{
+    color: var(--black);
+  }
+  h4.card-text.text-right{
+    color: var(--black) ;
+  }
+  .movie_name_text , .booking_text,.dd-text,h5,.text-x{
+    color: var(--black)!important;
+  }
+  
+  div#mini_search {
+    z-index: 9999;
+    left: 0;
+    background: var(--warper-sidebar);
+    animation: slidedown .3s 1 ease-in-out;
+}
+
+div#mini_search a {
+  padding: 15px;
+  display: block;
+}
+div#mini_search .search-span {
+  color: var(--black);
+  font-size: 10px;
+  padding-left: 20px;
+  margin-left: 20px;
+  border-left: 1px solid gray;
+}
+a#t1-close {
+  color: var(--black);
+  text-decoration: none;
+  position: absolute;
+  right: 20px;
+}
+
+@keyframes slidedown{
+  from{
+      margin-top: -20px;
+      opacity: 0;
+  }
+  to{
+      margin-top: 0;
+      opacity: 1;
+  }
+}
+</style>
+
+<script>
+import $_ from 'jquery'
+import axios from 'axios';
+export default {
+    data(){
+        return {
+            admin_data : JSON.parse(localStorage.getItem('logged')),
+            apps:[],
+            members:[]
+        }
+    },
+    created(){
+        let session = localStorage.getItem('logged')
+        if(session == null){
+            location.href ="http://localhost:8080/console"
+        }
+
+        // Get Last App
+        const lastAPI = "http://localhost:4000/api/app/get_5"
+        axios.get(lastAPI).then((res)=>{
+          this.apps = res.data;
+        })
+        // Get Member
+        const lastMemAPI = "http://localhost:4000/api/load_data"
+        axios.get(lastMemAPI).then((res)=>{
+          this.members = res.data
+        })
+    },
+    mounted(){
+        $_(".sidebar-dropdown > a").click(function() {
+            $_(".sidebar-submenu").slideUp(200);
+            if (
+            $_(this)
+                .parent()
+                .hasClass("active")
+            ) {
+            $_(".sidebar-dropdown").removeClass("active");
+            $_(this)
+                .parent()
+                .removeClass("active");
+            } else {
+            $_(".sidebar-dropdown").removeClass("active");
+            $_(this)
+                .next(".sidebar-submenu")
+                .slideDown(200);
+            $_(this)
+                .parent()
+                .addClass("active");
+            }
+        });
+    
+        $_("#close-sidebar").click(function() {
+            $_(".page-wrapper").removeClass("toggled");
+        });
+        $_("#show-sidebar").click(function() {
+            $_(".page-wrapper").addClass("toggled");
+        });
+    },
+    methods:{
+        Logout(){
+            localStorage.removeItem('logged')
+            if(localStorage.getItem('logged') == null){
+              this.$swal("ออกจากระบบสำเร็จ",'คลิกปุ่ม OK เพื่อดำเนินการต่อ','success').then(()=>{
+                 location.reload();
+              })
+            }
+        }
+    }
+}
+</script>
