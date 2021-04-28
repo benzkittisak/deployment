@@ -56,7 +56,7 @@ export default {
   methods:{
     
     submitForm(){
-        let apiURL = 'http://localhost:4000/api/create-member';
+        let apiURL = 'http://uni-api.app.ruk-com.cloud/api/create-member';
 
         axios.post(apiURL,this.member).then(()=>{
             this.$router.push('/view');

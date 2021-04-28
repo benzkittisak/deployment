@@ -5,7 +5,7 @@
 
             <div class="sidebar-header">
                 <div class="user-pic">
-                   <img :src="`../../../uploads/profiles/${admin_data.pic}`" alt="">
+                   <img :src="`http://uni-api.app.ruk-com.cloud/profiles/${admin_data.pic}`" alt="">
               
                 </div>
                 <div class="user-info">
@@ -834,12 +834,12 @@ export default {
         }
 
         // Get Last App
-        const lastAPI = "http://localhost:4000/api/app/get_5"
+        const lastAPI = "http://uni-api.app.ruk-com.cloud/api/app/get_5"
         axios.get(lastAPI).then((res)=>{
           this.apps = res.data;
         })
         // Get Member
-        const lastMemAPI = "http://localhost:4000/api/load_data"
+        const lastMemAPI = "http://uni-api.app.ruk-com.cloud/api/load_data"
         axios.get(lastMemAPI).then((res)=>{
           this.members = res.data
         })

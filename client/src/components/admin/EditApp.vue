@@ -5,7 +5,7 @@
 
             <div class="sidebar-header">
                 <div class="user-pic">
-                   <img :src="`../../../uploads/profiles/${admin_data.pic}`" alt="">
+                   <img :src="`http://uni-api.app.ruk-com.cloud/profiles/${admin_data.pic}`" alt="">
               
                 </div>
                 <div class="user-info">
@@ -100,7 +100,7 @@
                     <form @submit.prevent="formSubmit" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-md-4">
-                                <img :src="'http://localhost:8080/uploads/'+app.icon" class="img-fluid" style="width:100%" alt="" id="preview_logo">
+                                <img :src="'http://uni-api.app.ruk-com.cloud/icon/'+app.icon" class="img-fluid" style="width:100%" alt="" id="preview_logo">
                                 
                             </div>
                             <div class="col-md-8">
@@ -142,7 +142,7 @@
                                             <label  class="form-label btn-block">อัปโหลดรูปตัวอย่าง</label>
                                             
                                             <div id="preview_app_list">
-                                                <img class="del_preview" style='width:150px;object-fit:cover;height:150px' v-for="img in app.preview" :key="img" :src="'http://localhost:8080/uploads/'+img"   @click="delImg(img)" alt="">
+                                                <img class="del_preview" style='width:150px;object-fit:cover;height:150px' v-for="img in app.preview" :key="img" :src="'http://uni-api.app.ruk-com.cloud/icon/'+img"   @click="delImg(img)" alt="">
                             
                                             </div>
                                             <label for="app_pre" class="app_pre_upload mt-3">+</label>
@@ -824,7 +824,7 @@ export default {
             this.$router.push('/console');
         }
 
-        const apiURL = `http://localhost:4000/api/app/edit/${this.$route.params.id}`;
+        const apiURL = `http://uni-api.app.ruk-com.cloud/api/app/edit/${this.$route.params.id}`;
         axios.get(apiURL).then(res=>{
             this.app = res.data
         })
@@ -893,9 +893,9 @@ export default {
             }
             
             try{
-                axios.post('http://localhost:4000/upload/multi',formData).then(()=>{
-                    axios.post('http://localhost:4000/upload',formData2).then(()=>{
-                        const appURL = `http://localhost:4000/api/app/update/${this.$route.params.id}`;
+                axios.post('http://uni-api.app.ruk-com.cloud/upload/multi',formData).then(()=>{
+                    axios.post('http://uni-api.app.ruk-com.cloud/upload',formData2).then(()=>{
+                        const appURL = `http://uni-api.app.ruk-com.cloud/api/app/update/${this.$route.params.id}`;
                         axios.put(appURL,this.app).then(()=>{
                             this.$swal("เเก้ข้อมูลสำเร็จ","กรุณาคลิกปุ่ม OK เพื่อดำเนินการต่อ","success").then(()=>{
                                 this.$router.push('/console/app/view_app')

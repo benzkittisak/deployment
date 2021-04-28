@@ -11,7 +11,7 @@ const upload = multer({
     
    storage:multer.diskStorage({
        destination:(req,file,cb)=>{
-            cb(null,`client/public/uploads/`);
+            cb(null,`./uploads/`);
        },
        filename:(req,file,cb)=>{
            let newfile = file.originalname
@@ -28,7 +28,7 @@ const upload = multer({
 const upload_mem = multer({
     storage:multer.diskStorage({
         destination:(req,file,cb)=>{
-             cb(null,`client/public/uploads/profiles/`);
+             cb(null,`./uploads/profiles/`);
         },
         filename:(req,file,cb)=>{
             let newfile = file.originalname
@@ -42,7 +42,6 @@ const upload_mem = multer({
         cb(null,true)
     }
  })
-
 
 // Connect Db
 mongoose.Promise = global.Promise;
@@ -71,13 +70,17 @@ app.use('/api',memberAPI);
 app.use('/api/app',appsAPI)
 app.use('/api/down',downloadAPI)
 
+app.use('/profiles',express.static(path.join(__dirname,'uploads/profiles')))
+app.use('/icon',express.static(path.join(__dirname,'uploads/')))
+
+
 if(process.env.NODE_ENV == 'production'){
     app.use(express.static('client/dist'))
     app.get('*',(req,res)=>{
         res.sendFile(path.resolve(__dirname,'client','dist','index.html'));
     })
 }
-
+console.log(__dirname)
 // Create PORT
 const server = app.listen(PORT,()=>{
     console.log('Connected to port ' + PORT);

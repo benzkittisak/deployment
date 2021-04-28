@@ -68,7 +68,7 @@
             <div class="account" v-show="isLogin" style="position:relative">
               <router-link :to="{name:'Account',params:{id:login._id}}" style="display: block;width: 100%;text-align: center;">
                   <img v-if="!isLogin" src="../assets/ionic-ios-contact-gray.svg" alt=""> 
-                  <img v-else :src="'../../uploads/profiles/' + login.pic" alt="" style="width: 40px;border-radius: 50%;height:40px">
+                  <img v-else :src="'http://uni-api.app.ruk-com.cloud/profiles/' + login.pic" alt="" style="width: 40px;border-radius: 50%;height:40px">
                   <span style="color : #707070 ; padding-left:10px"> {{login.fname + ' ' + login.lname}}</span>
               </router-link>
                 
@@ -89,7 +89,7 @@
                   </div>
                   <div class="right d-flex justify-content-end w-100 align-items-center">
                     <button style="background:none;border:none" class="home-link" @click="close">
-                        <img :src="'../../uploads/profiles/'+login.pic" width="40" height="40" style="margin-right:10px;border-radius:50%" alt="" >    แก้ไขข้อมูล
+                        <img :src="'http://uni-api.app.ruk-com.cloud/profiles/'+login.pic" width="40" height="40" style="margin-right:10px;border-radius:50%" alt="" >    แก้ไขข้อมูล
                     </button>
                   </div>
               </div>
@@ -102,7 +102,7 @@
               <div class="container-fluid p-0">
                 <div class="row" style="height:80px">
                   <div class="col-md-3 d-flex align-items-center">
-                    <img :src="'../../uploads/'+app.icon" alt="" class="img-fluid">
+                    <img :src="'http://uni-api.app.ruk-com.cloud/icon/'+app.icon" alt="" class="img-fluid">
                   </div>
                   <div class="col-md-5 mt-2 p-0">
                     <div class="app-name">
@@ -148,22 +148,28 @@
                                        <div class="col-12 mb-5">
                                             <div class="img-profile">
                                                 <div class="img-edit">
-                                                    <img id="preview" :src="'../../uploads/profiles/'+regis.pic"  alt="">
+                                                    <img id="preview" :src="'http://uni-api.app.ruk-com.cloud/profiles/'+regis.pic"  alt="">
                                                     <label class="img-edit-input" for="file">แก้ไข</label>
                                                     <input style="display:none" type="file" name="file" v-on:change="onFilePicked()" id="file" ref="file">
                                                 </div>
                                             </div>
                                        </div>
                                        <div class="col-6 mb-3">
+                                          <label for="fname">ชื่อจริง</label>
                                            <input v-model="regis.fname" type="text" class="form-control" placeholder="ชื่อจริง">
                                        </div>
                                        <div class="col-6 mb-3">
+                                          <label for="lname">นามสกุล</label>
                                            <input v-model="regis.lname" type="text" class="form-control" placeholder="นามสกุล">
                                        </div>
                                        <div class="col-6 mb-3">
+                                          <label for="fname">ชื่อผู้ใช้</label>
+
                                            <input v-model="regis.username" type="text" class="form-control" placeholder="ชื่อผู้ใช้">
                                        </div>
                                        <div class="col-6 mb-3">
+                                          <label for="fname">รหัสผ่าน</label>
+
                                            <input v-model="regis.password" type="password" class="form-control" placeholder="นามสกุล">
                                        </div>
                                        <div class="col-6 offset-6 mb-5">
@@ -1092,8 +1098,8 @@ export default {
     } else {
       this.login = JSON.parse(localStorage.getItem('mem_log'));
     }
-   const downloadAPI = `http://localhost:4000/api/down/show/${this.$route.params.id}`;
-   const AppAPI = `http://localhost:4000/api/app/`
+   const downloadAPI = `http://uni-api.app.ruk-com.cloud/api/down/show/${this.$route.params.id}`;
+   const AppAPI = `http://uni-api.app.ruk-com.cloud/api/app/`
 
    axios.get(downloadAPI).then((res)=>{
       this.apps = res.data
@@ -1112,7 +1118,7 @@ export default {
    
 
     // GET MY PROFILE
-    const memberAPI = `http://localhost:4000/api/edit-member/${this.$route.params.id}`
+    const memberAPI = `http://uni-api.app.ruk-com.cloud/api/edit-member/${this.$route.params.id}`
     axios.get(memberAPI,this.regis).then((res)=>{
         if(res.data != null){
             this.regis = res.data;
@@ -1140,11 +1146,11 @@ export default {
           })
         } else {
             // เช็คว่าเคยดาวน์โหลดแล้วหรือยัง
-            const checkAPI = `http://localhost:4000/api/down/check_down/${this.login._id}/${id}`;
+            const checkAPI = `http://uni-api.app.ruk-com.cloud/api/down/check_down/${this.login._id}/${id}`;
             axios.get(checkAPI).then((data)=>{
               console.log(data.data);
               if(data.data == ""){
-                axios.post(`http://localhost:4000/api/down/download`,{app_id:id,app_name:name,mem_id:this.login._id}).then(()=>{
+                axios.post(`http://uni-api.app.ruk-com.cloud/api/down/download`,{app_id:id,app_name:name,mem_id:this.login._id}).then(()=>{
                   window.open(link);
                 })
               } else {
@@ -1178,11 +1184,11 @@ export default {
        EditUser(){
         const formData = new FormData();
         formData.append('file',this.upload)
-        axios.post('http://localhost:4000/upload_mem',formData).then(()=>{
-            const updateAPI = `http://localhost:4000/api/update-member/${this.$route.params.id}`;
+        axios.post('http://uni-api.app.ruk-com.cloud/upload_mem',formData).then(()=>{
+            const updateAPI = `http://uni-api.app.ruk-com.cloud/api/update-member/${this.$route.params.id}`;
             axios.put(updateAPI,this.regis).then((res)=>{
                 if(res.data != null){
-                  axios.get(`http://localhost:4000/api/edit-member/${this.login._id}`).then((update)=>{
+                  axios.get(`http://uni-api.app.ruk-com.cloud/api/edit-member/${this.login._id}`).then((update)=>{
                     this.$swal.fire("บันทึกข้อมูลสำเร็จ","คลิก OK เพื่อดำเนินการต่อ","success").then(()=>{
                         localStorage.removeItem('mem_log');
                         localStorage.setItem('mem_log',JSON.stringify(update.data))

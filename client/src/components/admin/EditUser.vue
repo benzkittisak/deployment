@@ -5,7 +5,7 @@
 
             <div class="sidebar-header">
                 <div class="user-pic">
-                   <img :src="`../../../uploads/profiles/${admin_data.pic}`" alt="">
+                   <img :src="`http://uni-api.app.ruk-com.cloud/profiles/${admin_data.pic}`" alt="">
               
                 </div>
                 <div class="user-info">
@@ -102,7 +102,7 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-12 mb-3 d-flex justify-content-center">
-                                      <img id="preview" :src="'../../../uploads/profiles/' + member.pic" alt="" style="width:150px">
+                                      <img id="preview" :src="'http://uni-api.app.ruk-com.cloud/profiles/' + member.pic" alt="" style="width:150px">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label" for="app_name">ชื่อจริง</label>
@@ -805,7 +805,7 @@ export default {
             this.$router.push('/console');
         }
 
-        const apiURL = `http://localhost:4000/api/edit-member/${this.$route.params.id}`;
+        const apiURL = `http://uni-api.app.ruk-com.cloud/api/edit-member/${this.$route.params.id}`;
         axios.get(apiURL).then(res=>{
             this.member = res.data
            
@@ -855,11 +855,11 @@ export default {
         },
 
         formSubmit(){
-            const updateAPI = `http://localhost:4000/api/update-member/${this.member._id}`;
+            const updateAPI = `http://uni-api.app.ruk-com.cloud/api/update-member/${this.member._id}`;
             const formData = new FormData();
             formData.append('file',this.upload)
 
-            axios.post(`http://localhost:4000/upload_mem`,formData).then(()=>{
+            axios.post(`http://uni-api.app.ruk-com.cloud/upload_mem`,formData).then(()=>{
               axios.put(updateAPI,this.member).then((res)=>{
                 if(res.data != null){
                     this.$swal("บันทึกข้อมูลสำเร็จ","คลิก OK เพื่อดำเนินการต่อ","success").then(()=>{

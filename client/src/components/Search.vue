@@ -72,7 +72,7 @@
             <div class="account" v-show="isLogin" style="position:relative">
               <router-link :to="{name:'Account',params:{id:login._id}}" style="display: block;width: 100%;text-align: center;">
                   <img v-if="!isLogin" src="../assets/ionic-ios-contact-gray.svg" alt=""> 
-                  <img v-else :src="'../../uploads/profiles/' + login.pic" alt="" style="height:40px;width: 40px;border-radius: 50%;">
+                  <img v-else :src="'http://uni-api.app.ruk-com.cloud/profiles/' + login.pic" alt="" style="height:40px;width: 40px;border-radius: 50%;">
                   <span style="color : #707070 ; padding-left:10px"> {{login.fname + ' ' + login.lname }}</span>
               </router-link>
                 
@@ -101,7 +101,7 @@
               <div class="container-fluid p-0">
                 <div class="row" style="height:80px">
                   <div class="col-md-3 d-flex align-items-center">
-                    <img :src="'../../uploads/'+app.icon" alt="" class="img-fluid">
+                    <img :src="'http://uni-api.app.ruk-com.cloud/icon/'+app.icon" alt="" class="img-fluid">
                   </div>
                   <div class="col-md-5 mt-2 p-0">
                     <div class="app-name">
@@ -1096,7 +1096,7 @@ export default {
       this.login = JSON.parse(localStorage.getItem('mem_log'));
     }
     // Get game carsousel data
-      axios.get(`http://localhost:4000/api/app`).then(res=>{
+      axios.get(`http://uni-api.app.ruk-com.cloud/api/app`).then(res=>{
             this.apps = res.data;
         })
   }
@@ -1124,7 +1124,7 @@ export default {
       $_('.login_section').fadeOut();    
     },
   Login(){
-        const apiURL = `http://localhost:4000/api/login/${this.member.username}/${this.member.password}`;
+        const apiURL = `http://uni-api.app.ruk-com.cloud/api/login/${this.member.username}/${this.member.password}`;
 
         axios.post(apiURL).then(res=>{
             if(res.data == null)
@@ -1164,14 +1164,14 @@ export default {
           })
         } else {
             // เช็คว่าเคยดาวน์โหลดแล้วหรือยัง
-            const checkAPI = `http://localhost:4000/api/down/check_down/${this.login._id}/${id}`;
+            const checkAPI = `http://uni-api.app.ruk-com.cloud/api/down/check_down/${this.login._id}/${id}`;
             axios.get(checkAPI).then((data)=>{
 
-              axios.get(`http://localhost:4000/api/app/edit/${id}`).then((download_count)=>{
+              axios.get(`http://uni-api.app.ruk-com.cloud/api/app/edit/${id}`).then((download_count)=>{
                 let download = {download:download_count.data.download + 1}
-                axios.put(`http://localhost:4000/api/app/update/download/${id}`,download).then(()=>{
+                axios.put(`http://uni-api.app.ruk-com.cloud/api/app/update/download/${id}`,download).then(()=>{
                   if(data.data == ""){
-                    axios.post(`http://localhost:4000/api/down/download`,{app_id:id,app_name:name,mem_id:this.login._id}).then(()=>{
+                    axios.post(`http://uni-api.app.ruk-com.cloud/api/down/download`,{app_id:id,app_name:name,mem_id:this.login._id}).then(()=>{
                       window.open(link)
                     })
                   } else {
@@ -1194,10 +1194,10 @@ export default {
     Register(){
       const formData = new FormData();
       formData.append('file',this.upload);
-      axios.post(`http://localhost:4000/api/chk_mem/${this.regis.username}`).then((res)=>{
+      axios.post(`http://uni-api.app.ruk-com.cloud/api/chk_mem/${this.regis.username}`).then((res)=>{
         if(res.data == ''){
-            axios.post('http://localhost:4000/upload_mem',formData).then(()=>{
-              const appURL = "http://localhost:4000/api/create-member";
+            axios.post('http://uni-api.app.ruk-com.cloud/upload_mem',formData).then(()=>{
+              const appURL = "http://uni-api.app.ruk-com.cloud/api/create-member";
                 axios.post(appURL,this.regis).then(()=>{
                     this.$swal("สมัครสมาชิกสำเร็จ","กรุณาคลิกปุ่ม OK เพื่อเข้าสู่ระบบ","success").then(()=>{
                         this.regis ={

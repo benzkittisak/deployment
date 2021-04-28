@@ -5,7 +5,7 @@
 
             <div class="sidebar-header">
                 <div class="user-pic">
-                   <img :src="`../../../uploads/profiles/${admin_data.pic}`" alt="">
+                   <img :src="`http://uni-api.app.ruk-com.cloud/profiles/${admin_data.pic}`" alt="">
               
                 </div>
                 <div class="user-info">
@@ -128,7 +128,7 @@
                                         <label class="form-label" for="dev">ชื่อผู้พัฒนา</label>
                                         <input type="text" class="form-control" v-model="app.dev_name">
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-12 mb-3">
                                         <label class="form-label" for="link">ลิงค์ดาวน์โหลด</label>
                                         <input type="text" class="form-control" id="link" v-model="app.link">
                                     </div>
@@ -892,9 +892,9 @@ export default {
             
             try{
                 
-                    axios.post('http://localhost:4000/upload/multi',formData).then(()=>{
-                      axios.post('http://localhost:4000/upload',formData2).then(()=>{
-                          const appURL = "http://localhost:4000/api/app/create";
+                    axios.post('http://uni-api.app.ruk-com.cloud/upload/multi',formData).then(()=>{
+                      axios.post('http://uni-api.app.ruk-com.cloud/upload',formData2).then(()=>{
+                          const appURL = "http://uni-api.app.ruk-com.cloud/api/app/create";
                           axios.post(appURL,this.app).then(()=>{
                               this.$swal("เพิ่มข้อมูลสำเร็จ","กรุณาคลิกปุ่ม OK เพื่อดำเนินการต่อ","success").then(()=>{
                                   location.reload();

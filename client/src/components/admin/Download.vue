@@ -5,7 +5,7 @@
 
             <div class="sidebar-header">
                 <div class="user-pic">
-                   <img :src="`../../../uploads/profiles/${admin_data.pic}`" alt="">
+                   <img :src="`http://uni-api.app.ruk-com.cloud/profiles/${admin_data.pic}`" alt="">
               
                 </div>
                 <div class="user-info">
@@ -110,7 +110,7 @@
                           <tbody>
                             <tr align=center v-for="app in apps" :key="app._id">
                                 <td>
-                                  <img :src="`../../uploads/${app.icon}`" width="50">
+                                  <img :src="`http://uni-api.app.ruk-com.cloud/icon/${app.icon}`" width="50">
                                 </td>
                                 <td>
                                     {{app.app_name}}
@@ -812,7 +812,7 @@ export default ({
        } 
     },
     created(){
-        const loadAPI = "http://localhost:4000/api/app/download"
+        const loadAPI = "http://uni-api.app.ruk-com.cloud/api/app/download"
         axios.get(loadAPI).then((res)=>{
           this.apps = res.data
         })

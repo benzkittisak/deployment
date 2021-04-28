@@ -5,7 +5,7 @@
 
             <div class="sidebar-header">
                 <div class="user-pic">
-                   <img :src="`../../../uploads/profiles/${admin_data.pic}`" alt="">
+                   <img :src="`http://uni-api.app.ruk-com.cloud/profiles/${admin_data.pic}`" alt="">
               
                 </div>
                 <div class="user-info">
@@ -132,7 +132,7 @@
                           <tbody>
                             <tr align=center v-for="app in filterList" :key="app._id">
                                 <td>
-                                    <img :src="'http://localhost:8080/uploads/'+app.icon" style="width:40px">
+                                    <img :src="'http://uni-api.app.ruk-com.cloud/icon/'+app.icon" style="width:40px">
                                 </td>
                                 <td>
                                     {{app.app_name}}
@@ -816,7 +816,7 @@ export default {
             this.$router.push('/console');
         }
 
-        const apiURL = `http://localhost:4000/api/app/${this.search}`;
+        const apiURL = `http://uni-api.app.ruk-com.cloud/api/app/${this.search}`;
         axios.get(apiURL).then(res=>{
             this.apps = res.data
         })
@@ -869,7 +869,7 @@ export default {
     ,
     methods:{
         delFn(id){
-            const apiURL = `http://localhost:4000/api/app/del/${id}`;
+            const apiURL = `http://uni-api.app.ruk-com.cloud/api/app/del/${id}`;
             this.$swal({
                 title: 'คุณต้องการลบข้อมูลใช่หรือไม่',
                 type:'warning',
