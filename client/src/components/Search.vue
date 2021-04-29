@@ -618,7 +618,7 @@ label.app_pre_upload {
   
   .sidebar-wrapper .sidebar-header {
     padding:10px;
-    margin-top: 20px;
+    margin-top: 105px;
     overflow: hidden;
   }
   .search-container input {

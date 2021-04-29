@@ -821,7 +821,7 @@ label.app_pre_upload {
   
   .sidebar-wrapper .sidebar-header {
     padding:10px;
-    margin-top: 20px;
+    margin-top: 105px;
     overflow: hidden;
   }
   .search-container input {
@@ -1377,7 +1377,7 @@ export default {
             showCancelButton:true
           }).then((res)=>{
               if(res.isConfirmed === true){
-                $_('.login_section').toggleClass("show",1000); 
+                this.showLogin();
               }
           })
         } else {

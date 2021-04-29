@@ -341,6 +341,8 @@ label.app_pre_upload {
   
   .sidebar-wrapper .sidebar-header {
     padding: 20px;
+        margin-top: 105px;
+
     overflow: hidden;
   }
   
