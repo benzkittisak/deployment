@@ -9,6 +9,8 @@ const {PORT , mongoUri} = require('./config')
 const morgan = require('morgan')
 const upload = multer({
     
+
+// กำหนดการทำงานของ API ที่ใช้อัปโหลดรูป
    storage:multer.diskStorage({
        destination:(req,file,cb)=>{
             cb(null,`./uploads/`);
@@ -54,10 +56,11 @@ mongoose.connect(database.db,{
     console.log('Cannot Connect to database' + error);
 }
 
+//กำหนด API 
 const memberAPI = require('./routes/member.route');
 const appsAPI = require('./routes/apps.route');
 const downloadAPI = require('./routes/download.route');
-//const WebAPI = require('./routes/webloader.route');
+
 const app = express();
 app.use(morgan('tiny'))
 app.use(bodyParser.json());
@@ -65,11 +68,13 @@ app.use(bodyParser.urlencoded({
     extended:false
 }))
 ,app.use(cors())
-// API
+
+// เรียกใช้API
 app.use('/api',memberAPI);
 app.use('/api/app',appsAPI)
 app.use('/api/down',downloadAPI)
 
+// กำหนด path ให้ฝั่ง user เรียกใช้งานรูปภาพ
 app.use('/profiles',express.static(path.join(__dirname,'uploads/profiles')))
 app.use('/icon',express.static(path.join(__dirname,'uploads/')))
 
