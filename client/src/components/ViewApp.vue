@@ -154,7 +154,7 @@
                 <vueper-slide @click="hideSlide" style="border-radius:5px"
                     v-for="(img,i) in apps.preview" 
                     :key="i" 
-                    :image="'../../uploads/'+img">
+                    :image="'http://uni-api.app.ruk-com.cloud/icon/'+img">
                 </vueper-slide>
             </vueper-slides>
           </div>
